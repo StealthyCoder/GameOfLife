@@ -21,7 +21,11 @@ public class TerminalRenderer implements Renderer<Board> {
     }
 
     public void clear() throws IOException {
-        terminal.output().write(Curses.tputs(terminal.getStringCapability(InfoCmp.Capability.clear_screen)).getBytes(StandardCharsets.UTF_8));
+        try {
+            terminal.output().write(Curses.tputs(terminal.getStringCapability(InfoCmp.Capability.clear_screen)).getBytes(StandardCharsets.UTF_8));
+        } catch (NullPointerException npe) {
+            newLine();
+        }
     }
 
     public void render(Board board) throws IOException {
